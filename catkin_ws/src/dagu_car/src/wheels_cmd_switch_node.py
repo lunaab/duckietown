@@ -5,7 +5,6 @@ class WheelsCmdSwitchNode(object):
     def __init__(self):
         self.node_name = rospy.get_name()
         rospy.loginfo("[%s] Initializing " %(self.node_name))
-<<<<<<< HEAD
         
         self.mode_msg = FSMState()
         self.mode_msg.state = FSMState.LANE_FOLLOWING
@@ -58,7 +57,7 @@ class WheelsCmdSwitchNode(object):
         #rospy.loginfo("cb_args is [%d]. Mode is [%d]." %(cb_args, self.mode_msg.state))
         if cb_args == self.mode_msg.state:
             self.pubWheelsCmd()
-=======
+
         # Read parameters
         self.mappings = rospy.get_param("~mappings")
         source_topic_dict = rospy.get_param("~source_topics")
@@ -78,7 +77,6 @@ class WheelsCmdSwitchNode(object):
         self.current_src_name = self.mappings.get(fsm_state_msg.state)
         if self.current_src_name is None:
             rospy.logwarn("[%s] FSMState %s not handled. No msg pass through the switch." %(self.node_name,fsm_state_msg.state))
->>>>>>> devel-fsm
 
     def cbWheelsCmd(self,msg,src_name):
         if src_name == self.current_src_name:
