@@ -22,7 +22,9 @@ class SimpleNavControl(object):
         rospy.Subscriber("~at_stop_line", BoolStamped, self.atIntersection)
         rospy.Subscriber("~intersection_done", BoolStamped, self.finishedIntersection)
         
+        rospy.logwarn('Waiting for State')
         rospy.wait_for_service("fsm/set_state")
+        rospy.logwarn('State service found')
         try:
             set_state = rospy.ServiceProxy("fsm/set_state", SetFSMState)
             set_state("LANE_FOLLOWING")
