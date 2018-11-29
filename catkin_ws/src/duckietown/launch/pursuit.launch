@@ -67,6 +67,13 @@
     
     <!-- Pursuit -->
     <!-- pursuit topics defined in yaml file. -->
+    <remap from="simple_nav/at_stop_line" to="stop_line_filter_node/at_stop_line"/>
+    <remap from="simple_nav/intersection_done" to="open_loop_intersection_control_node/intersection_done"/>
+    <remap from="simple_nav/set_state" to="fsm/set_state"/>
+    <remap from="simple_nav/turn_left" to="open_loop_intersection_control_node/turn_left"/>
+    <remap from="simple_nav/turn_right" to="open_loop_intersection_control_node/turn_right"/>
+    <remap from="simple_nav/turn_forward" to="open_loop_intersection_control_node/turn_forward"/>
+    <remap from="simple_nav/turn_type" to="open_loop_intersection_control_node/turn_type"/>
     <include file="$(find pursuit_evasion)/launch/simple_nav.launch">
       <arg name="veh" value="$(arg veh)"/>        
       <arg name="local" value="$(arg local)"/>        
