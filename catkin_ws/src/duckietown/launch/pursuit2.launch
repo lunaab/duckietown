@@ -56,7 +56,7 @@
 
     <!-- car_cmd_switch_node -->
     <remap from="inverse_kinematics_node/car_cmd" to="lane_controller_node/car_cmd"/>
-    <include file="$(find dagu_car)/launch/inverse_kinematics_node.launch">
+    <include file="$(find dagu_car)/launch/car_cmd_switch_node.launch">
         <arg name="veh" value="$(arg veh)"/>
         <arg name="local" value="$(arg local)"/>
         <arg name="config" value="$(arg config)"/>
