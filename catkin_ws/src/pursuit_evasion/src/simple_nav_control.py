@@ -23,10 +23,10 @@ class SimpleNavControl(object):
         rospy.Subscriber("~intersection_done", BoolStamped, self.finishedIntersection)
         
         rospy.logwarn('WAITING***********************************************')
-        rospy.wait_for_service("~set_state")
+        rospy.wait_for_service("/donald/fsm/set_state")
         rospy.logwarn('DONE WAITING DONE WAITING DONE WAITING')
         try:
-            set_state = rospy.ServiceProxy("~set_state", SetFSMState)
+            set_state = rospy.ServiceProxy("/donald/fsm/set_state", SetFSMState)
             set_state("LANE_FOLLOWING")
         except rospy.ServiceException, e:
                 print "Service call failed: %s" %e
@@ -35,23 +35,23 @@ class SimpleNavControl(object):
         
     def atIntersection(self, stop_msg):
         if stop_msg.data:
-            rospy.wait_for_service("~set_state")
-            rospy.wait_for_service("~turn_left")
-            rospy.wait_for_service("~turn_right")
-            rospy.wait_for_service("~turn_forward")
+            rospy.wait_for_service("/donald/fsm/set_state")
+            rospy.wait_for_service("/donald/open_loop_intersection_control_node/turn_left")
+            rospy.wait_for_service("/donald/open_loop_intersection_control_node/turn_right")
+            rospy.wait_for_service("/donald/open_loop_intersection_control_node/turn_forward")
             try:
                 # Set intersection control state
-                set_state = rospy.ServiceProxy("~set_state", SetFSMState)
+                set_state = rospy.ServiceProxy("/donald/open_loop_intersection_control_node/set_state", SetFSMState)
                 set_state("INTERSECTION_CONTROL")
                 # Tell duckie which way to turn
                 turn = self.path.pop()
                 turn_serv = None
                 if turn == 0:
-                    turn_serv = rospy.ServiceProxy("~turn_left", Empty)
+                    turn_serv = rospy.ServiceProxy("/donald/open_loop_intersection_control_node/turn_left", Empty)
                 elif turn == 1:
-                    turn_serv = rospy.ServiceProxy("~turn_forward", Empty)
+                    turn_serv = rospy.ServiceProxy("/donald/open_loop_intersection_control_node/turn_forward", Empty)
                 else:
-                    turn_serv = rospy.ServiceProxy("~turn_right", Empty)
+                    turn_serv = rospy.ServiceProxy("/donald/open_loop_intersection_control_node/turn_right", Empty)
                     
                 turn_serv()
             except rospy.ServiceException, e:
