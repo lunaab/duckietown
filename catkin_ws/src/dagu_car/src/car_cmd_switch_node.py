@@ -19,6 +19,7 @@ class CarCmdSwitchNode(object):
 
         self.sub_dict = dict()
         for src_name, topic_name in source_topic_dict.items():
+            print topic_name
             self.sub_dict[src_name] = rospy.Subscriber(topic_name,Twist2DStamped,self.cbWheelsCmd,callback_args=src_name)
 
         rospy.loginfo("[%s] Initialized. " %(self.node_name))
