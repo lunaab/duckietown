@@ -42,7 +42,7 @@ class SimpleNavControl(object):
                 turn = self.path.pop()
                 cmd = Int16()
                 cmd.data = turn
-                self.pub_turn(cmd)
+                self.pub_turn.publish(cmd)
             '''rospy.wait_for_service("~set_state")
             rospy.wait_for_service("~turn_left")
             rospy.wait_for_service("~turn_right")
