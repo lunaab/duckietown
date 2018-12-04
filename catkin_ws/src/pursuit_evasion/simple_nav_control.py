@@ -11,6 +11,9 @@ class SimpleNavControl(object):
     def __init__(self):
         self.node_name = rospy.get_name()
         
+        # State Variables
+        self.sent_turn = False
+        
         # Path 0-left, 1-forward, 2-right 
         self.path = [1, 0, 2, 2, 1, 1]
         self.path.reverse()
@@ -22,20 +25,24 @@ class SimpleNavControl(object):
         rospy.Subscriber("~at_stop_line", BoolStamped, self.atIntersection)
         rospy.Subscriber("~intersection_done", BoolStamped, self.finishedIntersection)
         
-        rospy.logwarn('WAITING***********************************************')
+        '''rospy.logwarn('WAITING***********************************************')
         rospy.wait_for_service("~set_state")
         rospy.logwarn('DONE WAITING DONE WAITING DONE WAITING')
         try:
             set_state = rospy.ServiceProxy("~set_state", SetFSMState)
             set_state("LANE_FOLLOWING")
         except rospy.ServiceException, e:
-                print "Service call failed: %s" %e
+                print "Service call failed: %s" %e'''
                 
         rospy.spin()
         
     def atIntersection(self, stop_msg):
         if stop_msg.data:
-            rospy.wait_for_service("~set_state")
+            if not self.sent_turn:
+                self.sent_turn = True
+                turn = self.path.pop()
+                self.pub_turn(Int16(turn))
+            '''rospy.wait_for_service("~set_state")
             rospy.wait_for_service("~turn_left")
             rospy.wait_for_service("~turn_right")
             rospy.wait_for_service("~turn_forward")
@@ -55,16 +62,17 @@ class SimpleNavControl(object):
                     
                 turn_serv()
             except rospy.ServiceException, e:
-                print "Service call failed: %s" %e
+                print "Service call failed: %s" %e'''
         
     def finishedIntersection(self, done_msg):
         if done_msg.data:
-            rospy.wait_for_service("~set_state")
+            self.sent_turn = False
+            '''rospy.wait_for_service("~set_state")
             try:
                 set_state = rospy.ServiceProxy("~set_state", SetFSMState)
                 set_state("LANE_FOLLOWING")
             except rospy.ServiceException, e:
-                print "Service call failed: %s" %e
+                print "Service call failed: %s" %e'''
                 
 if __name__ == "__main__":
     rospy.init_node("simple_nav", anonymous=False)
