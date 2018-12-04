@@ -39,6 +39,7 @@ class SimpleNavControl(object):
         if bool(stop_msg.data):
             if not self.sent_turn:
                 self.sent_turn = True
+                rospy.sleep(1)
                 turn = self.path.pop()
                 cmd = Int16()
                 cmd.data = turn
