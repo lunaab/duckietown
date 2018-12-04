@@ -34,10 +34,9 @@ class SimpleNavControl(object):
         except rospy.ServiceException, e:
                 print "Service call failed: %s" %e'''
                 
-        rospy.spin()
         
     def atIntersection(self, stop_msg):
-        if stop_msg.data:
+        if bool(stop_msg.data):
             if not self.sent_turn:
                 self.sent_turn = True
                 turn = self.path.pop()
@@ -65,7 +64,7 @@ class SimpleNavControl(object):
                 print "Service call failed: %s" %e'''
         
     def finishedIntersection(self, done_msg):
-        if done_msg.data:
+        if bool(done_msg.data):
             self.sent_turn = False
             '''rospy.wait_for_service("~set_state")
             try:
@@ -77,3 +76,5 @@ class SimpleNavControl(object):
 if __name__ == "__main__":
     rospy.init_node("simple_nav", anonymous=False)
     node = SimpleNavControl()
+    rospy.on_shutdown(node.onShutdown)
+    rospy.spin()
