@@ -6,6 +6,9 @@
 
     <include file="$(find duckietown)/machines"/>
 
+    <node ns="$(arg veh)" if="$(arg local)" pkg="pursuit_evasion" type="simple_nav_control.py" name="simple_nav" clear_params="true" output="screen" required="true">
+    </node>
+
     <node ns="$(arg veh)" unless="$(arg local)" machine="$(arg veh)" pkg="pursuit_evasion" type="simple_nav_control.py" name="simple_nav" output="screen">
     </node>
     
