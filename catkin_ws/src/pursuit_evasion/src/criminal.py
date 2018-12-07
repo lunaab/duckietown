@@ -17,7 +17,7 @@ class Criminal(object):
         
         # State Variables
         self.sent_turn = False
-        self.delay = 1.0
+        self.delay = 2.0
         
         # Graph of Duckietown
         self.graph = DuckieGraph()
