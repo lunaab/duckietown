@@ -39,7 +39,6 @@ class Criminal(object):
         
         rospy.sleep(4.8 + self.delay)
         while True:
-            rospy.logwarn('********************** OH SHIT ITS WAITING ***********************')
             self.atIntersection(0)
             self.sent_turn = False
                 

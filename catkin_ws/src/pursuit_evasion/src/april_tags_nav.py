@@ -63,7 +63,8 @@ class AprilTagsNav(object):
                 intersection = 4
         new_inter = Int16MultiArray()
         new_inter.data = [interprev,intersection]
-        self.pub_int.publish(new_inter)
+        if interprev != -1 and intersection != -1:
+            self.pub_int.publish(new_inter)
         
 
 
