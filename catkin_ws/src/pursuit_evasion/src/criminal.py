@@ -39,11 +39,8 @@ class Criminal(object):
         
         #rospy.sleep(4.8 + self.delay)
         while True:
-            #self.atIntersection(0)
-            #self.sent_turn = False
-            msg = Int16MultiArray()
-            msg.data = [0, 3]
-            self.pub_pose.publish(msg)
+            self.atIntersection(0)
+            self.sent_turn = False
                 
         
     def atIntersection(self, stop_msg):
