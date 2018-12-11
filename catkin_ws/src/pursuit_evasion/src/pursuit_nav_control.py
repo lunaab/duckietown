@@ -34,6 +34,7 @@ class PursuitNavControl(object):
         
         # Publishers
         self.pub_turn = rospy.Publisher("~turn_type", Int16, queue_size=1)
+        self.pub_pose = rospy.Publisher("duckie_pose", Int16MultiArray, queue_size=1)
         
         # Subscribers
         rospy.Subscriber("~criminal_pose", Int16MultiArray, self.planRoute)
@@ -58,6 +59,9 @@ class PursuitNavControl(object):
         for child in children:
             if self.turn_dict[child[1]] == turn:
                 self.curr_pose = self.graph.vertices[child[0]]
+        msg = Int16MultiArray()
+        msg.data = [self.curr_pose[0], self.curr_pose[1]]
+        self.pub_pose.publish(msg)
 
         
     def finishedIntersection(self, done_msg):
@@ -66,13 +70,12 @@ class PursuitNavControl(object):
                 
     def planRoute(self, crim_pose):
         #Pose: leaving, heading
-        if crim_pose.data[1] != self.target:
-            self.target = crim_pose.data[1]
-            cmd_path = self.searcher.shortest_path(self.graph.find_vertex(self.curr_pose), self.target, self.graph)
-            self.path = []
-            for cmd in cmd_path:
-                self.path.append(self.turn_dict[cmd])
-            self.path.reverse()
+        self.target = crim_pose.data[1]
+        cmd_path = self.searcher.shortest_path(self.graph.find_vertex(self.curr_pose), self.target, self.graph)
+        self.path = []
+        for cmd in cmd_path:
+            self.path.append(self.turn_dict[cmd])
+        self.path.reverse()
                 
 if __name__ == "__main__":
     rospy.init_node("pursuit_nav", anonymous=False)
