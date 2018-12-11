@@ -25,10 +25,11 @@ class PursuitNavControl(object):
         self.graph.build_DTown(filename)
         self.searcher = GraphSearch()
         self.curr_pose = (0, 1)
+        self.target = 0
         
         # Path 0-left, 1-forward, 2-right
         self.turn_dict = {'L': 0, 'F': 1, 'R': 2}
-        self.path = [1, 0, 2, 2, 1, 1]
+        self.path = []
         self.path.reverse()
         
         # Publishers
@@ -65,12 +66,14 @@ class PursuitNavControl(object):
                 
     def planRoute(self, crim_pose):
         #Pose: leaving, heading
-        target = crim_pose.data[1]
-        cmd_path = self.searcher.shortest_path(self.graph.find_vertex(self.curr_pose), target, self.graph)
-        self.path = []
-        for cmd in cmd_path:
-            self.path.append(self.turn_dict[cmd])
-        self.path.reverse()
+        if crim_pose.data[1] != self.target:
+            self.target = crim_pose.data[1]
+            target = crim_pose.data[1]
+            cmd_path = self.searcher.shortest_path(self.graph.find_vertex(self.curr_pose), target, self.graph)
+            self.path = []
+            for cmd in cmd_path:
+                self.path.append(self.turn_dict[cmd])
+            self.path.reverse()
                 
 if __name__ == "__main__":
     rospy.init_node("pursuit_nav", anonymous=False)

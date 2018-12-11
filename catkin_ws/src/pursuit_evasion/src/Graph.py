@@ -118,9 +118,6 @@ class GraphSearch(object):
             children = graph.children(curr_idx)
             self.build_frontier(children, curr_node[1], curr_node[0])
             
-        print curr_node[1]
-        #print curr_node[0]
-        #print graph.vertices[curr_idx]
         return curr_node[1]
 
 
