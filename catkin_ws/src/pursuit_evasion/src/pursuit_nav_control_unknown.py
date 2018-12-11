@@ -71,7 +71,7 @@ class PursuitNavControl(object):
         #Pose: leaving, heading
         self.target = crim_pose.data[1]
         if self.curr_pose is not None:
-            cmd_path = self.searcher.shortest_path(self.graph.find_vertex(self.curr_pose), target, self.graph)
+            cmd_path = self.searcher.shortest_path(self.graph.find_vertex(self.curr_pose), self.target, self.graph)
             self.path = []
             for cmd in cmd_path:
                 self.path.append(self.turn_dict[cmd])
