@@ -33,6 +33,7 @@ class PursuitNavControl(object):
         
         # Publishers
         self.pub_turn = rospy.Publisher("~turn_type", Int16, queue_size=1)
+        self.pub_pose = rospy.Publisher("duckie_pose", Int16MultiArray, queue_size=1)
         
         # Subscribers
         rospy.Subscriber("~intersection_info", Int16MultiArray, self.setPose)
@@ -60,6 +61,9 @@ class PursuitNavControl(object):
             if self.turn_dict[child[1]] == turn:
                 self.curr_pose = self.graph.vertices[child[0]]
                 rospy.logwarn(self.curr_pose)
+        msg = Int16MultiArray()
+        msg.data = [self.curr_pose[0], self.curr_pose[1]]
+        self.pub_pose.publish(msg)
 
         
     def finishedIntersection(self, done_msg):
@@ -85,6 +89,9 @@ class PursuitNavControl(object):
                 self.curr_pose = (pose_msg.data[0], pose_msg.data[1])
         else:
             self.curr_pose = (pose_msg.data[0], pose_msg.data[1])
+        msg = Int16MultiArray()
+        msg.data = [self.curr_pose[0], self.curr_pose[1]]
+        self.pub_pose.publish(msg)
         '''if self.curr_pose is None:
             self.curr_pose = (pose_msg.data[0], pose_msg.data[1])
         rospy.logwarn(self.curr_pose)'''
