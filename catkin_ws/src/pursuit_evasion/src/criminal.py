@@ -37,7 +37,7 @@ class Criminal(object):
         # Publishers
         self.pub_pose = rospy.Publisher("~criminal_pose", Int16MultiArray, queue_size=1)
         
-        #rospy.sleep(4.8 + self.delay)
+        rospy.sleep(4.8 + self.delay)
         while True:
             self.atIntersection(0)
             self.sent_turn = False
