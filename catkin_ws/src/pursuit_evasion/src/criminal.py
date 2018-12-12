@@ -25,12 +25,12 @@ class Criminal(object):
         filename = rospack.get_path('pursuit_evasion')
         filename = filename + '/src/duckiemap.csv'
         self.graph.build_DTown(filename)
-        self.curr_pose = (1, 2)
+        self.curr_pose = (0, 2)
         
         # Path 0-left, 1-forward, 2-right
         #FLLLLF
         self.turn_dict = {'L': 0, 'F': 1, 'R': 2}
-        self.pure_path = [2, 0, 1, 2, 0]
+        self.pure_path = [1, 0, 0, 0, 0, 1]
         self.path = copy.deepcopy(self.pure_path)
         self.path.reverse()
         
