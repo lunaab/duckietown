@@ -47,6 +47,8 @@ class PursuitNavControl(object):
             if not self.sent_turn:
                 self.sent_turn = True
                 rospy.sleep(1)
+                while len(self.path) == 0:
+                    rospy.sleep(0.5)
                 turn = self.path.pop()
                 cmd = Int16()
                 cmd.data = turn
