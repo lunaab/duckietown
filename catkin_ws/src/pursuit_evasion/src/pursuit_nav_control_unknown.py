@@ -84,7 +84,7 @@ class PursuitNavControl(object):
             self.path.reverse()
         
     def setPose(self, pose_msg):
-        if self.curr_pose is not None:
+        ''''if self.curr_pose is not None:
             if pose_msg.data[0] != self.curr_pose[1]:
                 pass
             else:
@@ -93,10 +93,13 @@ class PursuitNavControl(object):
             self.curr_pose = (pose_msg.data[0], pose_msg.data[1])
         msg = Int16MultiArray()
         msg.data = [self.curr_pose[0], self.curr_pose[1], 0]
-        self.pub_pose.publish(msg)
-        '''if self.curr_pose is None:
+        self.pub_pose.publish(msg)''''
+        if self.curr_pose is None:
             self.curr_pose = (pose_msg.data[0], pose_msg.data[1])
-        rospy.logwarn(self.curr_pose)'''
+        rospy.logwarn(self.curr_pose)
+        msg = Int16MultiArray()
+        msg.data = [self.curr_pose[0], self.curr_pose[1], 0]
+        self.pub_pose.publish(msg)
                 
 if __name__ == "__main__":
     rospy.init_node("pursuit_nav", anonymous=False)
