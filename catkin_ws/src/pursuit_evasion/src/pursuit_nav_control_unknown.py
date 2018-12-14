@@ -28,7 +28,7 @@ class PursuitNavControl(object):
         
         # Path 0-left, 1-forward, 2-right
         self.turn_dict = {'L': 0, 'F': 1, 'R': 2}
-        self.path = [1, 0, 2, 2, 1, 1]
+        self.path = []
         self.path.reverse()
         
         # Publishers
@@ -64,7 +64,7 @@ class PursuitNavControl(object):
                 self.curr_pose = self.graph.vertices[child[0]]
                 rospy.logwarn(self.curr_pose)
         msg = Int16MultiArray()
-        msg.data = [self.curr_pose[0], self.curr_pose[1]]
+        msg.data = [self.curr_pose[0], self.curr_pose[1], 1]
         self.pub_pose.publish(msg)
 
         
@@ -92,7 +92,7 @@ class PursuitNavControl(object):
         else:
             self.curr_pose = (pose_msg.data[0], pose_msg.data[1])
         msg = Int16MultiArray()
-        msg.data = [self.curr_pose[0], self.curr_pose[1]]
+        msg.data = [self.curr_pose[0], self.curr_pose[1], 0]
         self.pub_pose.publish(msg)
         '''if self.curr_pose is None:
             self.curr_pose = (pose_msg.data[0], pose_msg.data[1])
